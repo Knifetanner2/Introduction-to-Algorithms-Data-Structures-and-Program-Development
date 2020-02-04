@@ -1,0 +1,323 @@
+<!-- Created by Bracy 0.4 on Monday, September 23, 2019 at 5:35 PM CDT -->
+<html>
+ <head>
+  <title>
+   CSci 1913 Computer Laboratory 3
+  </title>
+  <style>
+   a:active
+    { color: purple;
+      font-weight: bold;
+      text-decoration: none }
+   a:link
+    { color: blue;
+      font-weight: bold;
+      text-decoration: none }
+   a:visited
+    { color: purple;
+      font-weight: bold;
+      text-decoration: none }
+   hr
+    { background-color: black; 
+      border: none;
+      color: black;
+      height: 1px }
+   table
+    { border-collapse: collapse }
+  </style>
+ </head>
+ <body bgcolor="#FFFFFF">
+  <p align="center">
+   <b>Computer Laboratory 3</b>
+   <br />
+   <b>CS<small>CI</small> 1913: Introduction to Algorithms,</b>
+   <br />
+   <b>Data Structures, and Program Development</b>
+   <br />
+   <b>September 24&#8211;25, 2019</b>
+  </p>
+  <p>
+   <b>0. Introduction.</b>
+  </p>
+  <p align="justify">
+   This assignment asks you to write a Python function that sorts a tuple of
+   integers using the techniques of functional programming. This is the last
+   Python lab for this course. We&rsquo;re not done with Python yet: there is
+   still a Python project yet to be assigned, there will be questions about
+   Python on the first midterm, and one question about Python on the final.
+  </p>
+  <p>
+   <b>1. Theory.</b>
+  </p>
+  <p align="justify">
+   We say that a sequence of integers is <i>sorted</i> if it has elements
+   <i>e</i>&#8320;, <i>e</i>&#8321; ...,
+   <i>e</i>&#11388;&#8331;&#8321; in that order, and also
+   <i>e</i>&#8320;&nbsp;&#8804;&nbsp;<i>e</i>&#8321;&nbsp;...&nbsp;&#8804;&nbsp;<i>e</i>&#11388;&#8331;&#8321;.
+   We can sort such a sequence <i>S</i> using the following algorithm.
+  </p>
+  <ol>
+   <li>
+   <p align="justify">
+    If <i>S</i> has no elements, then it is already sorted, so return
+    <i>S</i>.
+   </p>
+   <li>
+   <p align="justify">
+    Choose the largest element <i>m</i> from <i>S</i>. If
+    <i>m</i> appears more than once in <i>S</i>, then choose any
+    appearance of <i>m</i>.
+   </p>
+   <li>
+   <p align="justify">
+    Make a new sequence that is like <i>S</i>, except that the first
+    appearance of <i>m</i> is removed.
+   </p>
+   <li>
+   <p align="justify">
+    Sort the new sequence by applying this algorithm recursively.
+   </p>
+   <li>
+   <p align="justify">
+    Return the result of adding <i>m</i> to the end of the sorted
+    sequence.
+   </p>
+  </ol>
+  <p align="justify">
+   For example, suppose that the algorithm is implemented by the Python
+   function <tt>Sort</tt>, which takes a tuple of integers as its
+   argument. We can trace the algorithm like this, where <tt>+</tt> is
+   Python&rsquo;s concatenation operator, and &#8658; means
+   <i>returns</i>.
+  </p>
+  <blockquote>
+   <table cellpadding="0" cellspacing="0">
+    <tr valign="top">
+     <td>
+      <p>
+       <tt>Sort((1, 2, 3, 1))</tt>
+      </p>
+     </td>
+     <td>
+      <p align="center">
+       &nbsp;&#8658; &nbsp;
+      </p>
+     </td>
+     <td>
+      <p>
+       <tt>Sort((1, 2, 1)) + (3,)</tt>
+      </p>
+     </td>
+    </tr>
+    <tr valign="top">
+     <td>
+      <p>
+       &nbsp;
+      </p>
+     </td>
+     <td>
+      <p align="center">
+       &nbsp;&#8658; &nbsp;
+      </p>
+     </td>
+     <td>
+      <p>
+       <tt>Sort((1, 1)) + (2,) + (3,)</tt>
+      </p>
+     </td>
+    </tr>
+    <tr valign="top">
+     <td>
+      <p>
+       &nbsp;
+      </p>
+     </td>
+     <td>
+      <p align="center">
+       &nbsp;&#8658; &nbsp;
+      </p>
+     </td>
+     <td>
+      <p>
+       <tt>Sort((1,)) + (1,) + (2,) + (3,)</tt>
+      </p>
+     </td>
+    </tr>
+    <tr valign="top">
+     <td>
+      <p>
+       &nbsp;
+      </p>
+     </td>
+     <td>
+      <p align="center">
+       &nbsp;&#8658; &nbsp;
+      </p>
+     </td>
+     <td>
+      <p>
+       <tt>Sort(()) + (1,) + (1,) + (2,) + (3,)</tt>
+      </p>
+     </td>
+    </tr>
+    <tr valign="top">
+     <td>
+      <p>
+       &nbsp;
+      </p>
+     </td>
+     <td>
+      <p align="center">
+       &nbsp;&#8658; &nbsp;
+      </p>
+     </td>
+     <td>
+      <p>
+       <tt>() + (1,) + (1,) + (2,) + (3,)</tt>
+      </p>
+     </td>
+    </tr>
+    <tr valign="top">
+     <td>
+      <p>
+       &nbsp;
+      </p>
+     </td>
+     <td>
+      <p align="center">
+       &nbsp;&#8658; &nbsp;
+      </p>
+     </td>
+     <td>
+      <p>
+       <tt>(1, 1, 2, 3)</tt>
+      </p>
+     </td>
+    </tr>
+   </table>
+  </blockquote>
+  <p align="justify">
+   The algorithm does not change the values of variables after they are
+   assigned, and does not use mutable data structures. As a result, it can be
+   implemented using the techniques of functional programming that were
+   discussed in the lectures.
+  </p>
+  <p>
+   <b>2. Implementation.</b>
+  </p>
+  <p align="justify">
+   You must implement the sorting algorithm described in the previous section
+   by defining the following Python functions. You must use the same names for
+   the functions as are shown here, but you may use different parameter names
+   if you like. Throughout, assume that <tt>T</tt> is a tuple of integers.
+   The tuple may contain negative integers, zeroes, positive integers, or some
+   mixture of these.
+  </p>
+  <blockquote>
+   <dl compact="compact">
+    <dt>
+     <p>
+      <tt>Sort(T)</tt>
+     </p>
+    </dt>
+    <dd>
+     <p align="justify">
+      Return a new tuple that is like <tt>T</tt>, except that its elements
+      are sorted (see above). It works by calling <tt>Maximum</tt> and
+      <tt>Remove</tt> somehow.
+     </p>
+    </dd>
+    <dt>
+     <p>
+      <tt>Maximum(T)</tt>
+     </p>
+    </dt>
+    <dd>
+     <p align="justify">
+      Assume that <tt>T</tt> has at least one element. Return the largest
+      element from <tt>T</tt>, an integer. Hint: use a
+      &lsquo;&lsquo;helper&rsquo;&rsquo; function to do most of the work.
+     </p>
+    </dd>
+    <dt>
+     <p>
+      <tt>Remove(T, E)</tt>
+     </p>
+    </dt>
+    <dd>
+     <p align="justify">
+      Return a new tuple that is like <tt>T</tt>, except that the first
+      appearance of its element <tt>E</tt> is removed. If <tt>E</tt>
+      does not appear in <tt>T</tt>, then <tt>Remove</tt> must return
+      a tuple that is like <tt>T</tt>.
+     </p>
+    </dd>
+   </dl>
+  </blockquote>
+  <p align="justify">
+   Some of these functions may be written easily using higher-order functions
+   such as <tt>lambda</tt>, <tt>filter</tt>, <tt>map</tt>, and
+   <tt>reduce</tt>. However, I won&rsquo;t tell you which ones can be
+   written this way, or which higher-order functions you should use. You need
+   not use higher-order functions if you don&rsquo;t want to.
+   <br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; All these functions <i>must</i> be
+   written in a functional, recursive style, and your code must demonstrate
+   that you know how to write in such a style. As a result, you will receive
+   <b><small>ZERO POINTS</small></b> for this lab if your functions
+   do any of the following things.
+  </p>
+  <ul>
+   <li>
+   <p align="justify">
+    Use one or more global variables.
+   </p>
+   <li>
+   <p align="justify">
+    Use a loop, such as <tt>for</tt> or <tt>while</tt>.
+   </p>
+   <li>
+   <p align="justify">
+    Assign a value to a variable more than once.
+   </p>
+   <li>
+   <p align="justify">
+    Use mutable data structures, such as lists or dictionaries.
+   </p>
+  </ul>
+  <p align="justify">
+   Also, you must not use operators or predefined functions that do things you
+   are asked to write yourself&#8212;so you must not call a predefined
+   <tt>sort</tt> function from the Python library. If you write additional
+   &lsquo;&lsquo;helper&rsquo;&rsquo; functions, then they must not do these
+   things either.
+  </p>
+  <p>
+   <b>3. Tests.</b>
+  </p>
+  <p align="justify">
+   The file
+   <a href="tests3.py">
+    <tt>tests3.py</tt>
+   </a>
+   on Canvas contains a series of tests. Each test calls a function from your
+   program, then prints what the function returns. Each test also has a comment
+   that says what it should print, and how many points it is worth.
+   <br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; To grade your work, the TA&rsquo;s will run
+   the tests using your functions. If a test prints exactly what it should,
+   without error, then you will receive all the points for that test. However,
+   if a test does anything else, then you will receive no points for that test.
+   Your score for this lab is the sum of points you receive for all the tests.
+  </p>
+  <p>
+   <b>4. Deliverables.</b>
+  </p>
+  <p align="justify">
+   Run the tests, then submit the Python code for your functions along with the
+   tests. The lab TA&rsquo;s will tell you how and where to turn them in. Your
+   work must be submitted by <b>11:55 <small>PM</small></b> on
+   <b>Wednesday, October 2, 2019.</b>
+  </p>
+ </body>
+</html>
