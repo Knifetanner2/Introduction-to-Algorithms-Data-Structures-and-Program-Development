@@ -1,0 +1,239 @@
+<!-- Created by Bracy 0.4 on Monday, September 16, 2019 at 6:18 PM CDT -->
+<html>
+ <head>
+  <style>
+   a:active
+    { color: purple;
+      font-weight: bold;
+      text-decoration: none }
+   a:link
+    { color: blue;
+      font-weight: bold;
+      text-decoration: none }
+   a:visited
+    { color: purple;
+      font-weight: bold;
+      text-decoration: none }
+   hr
+    { background-color: black; 
+      border: none;
+      color: black;
+      height: 1px }
+   table
+    { border-collapse: collapse }
+  </style>
+ </head>
+ <body bgcolor="#FFFFFF">
+  <p align="center">
+   <b>Computer Laboratory 2</b>
+   <br />
+   <b>CSci 1913: Introduction to Algorithms,</b>
+   <br />
+   <b>Data Structures, and Program Development</b>
+   <br />
+   <b>September 17&#8211;18, 2019</b>
+  </p>
+  <p>
+   <b>0. Introduction.</b>
+  </p>
+  <p align="justify">
+   In this laboratory assignment, you will write a Python class called
+   <tt>Zillion</tt>. The class <tt>Zillion</tt> implements a decimal
+   counter that allows numbers with an effectively infinite number of digits.
+   Of course the number of digits isn&rsquo;t really infinite, since it is
+   bounded by the amount of memory in your computer, but it can be very large.
+  </p>
+  <p>
+   <b>1. Examples.</b>
+  </p>
+  <p align="justify">
+   Here are some examples of how your class <tt>Zillion</tt> must work.
+   I&rsquo;ll first create an instance of <tt>Zillion</tt>. The string
+   gives the initial value of the counter. Blanks and commas in the string are
+   ignored.
+  </p>
+  <blockquote>
+   <p>
+    <tt>z&nbsp;=&nbsp;Zillion('999&nbsp;999&nbsp;999&nbsp;998')</tt>
+   </p>
+  </blockquote>
+  <p align="justify">
+   This instance of <tt>Zillion</tt> contains the number nine hundred
+   ninety nine billion, nine hundred ninety nine million, nine hundred and
+   ninety nine thousand, nine hundred and ninety eight. This is much larger
+   than the maximum number that can be represented in a Java <tt>int</tt>
+   variable, which is only 2&nbsp;147&nbsp;483&nbsp;647, or around two billion.
+   <br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I&rsquo;ll add 1 to the counter, by calling
+   the method <tt>increment</tt>, and I&rsquo;ll print the counter by
+   calling the method <tt>toString</tt>. I should see
+   <tt>999999999999</tt> (twelve nines) printed.
+  </p>
+  <blockquote>
+   <p>
+    <tt>z.increment()&nbsp;</tt>
+    <br />
+    <tt>print(z.toString())</tt>
+   </p>
+  </blockquote>
+  <p align="justify">
+   I&rsquo;ll add 1 to the counter again, and print its digits as before. I
+   should see <tt>1000000000000</tt> (one with twelve zeroes) printed.
+  </p>
+  <blockquote>
+   <p>
+    <tt>z.increment()&nbsp;</tt>
+    <br />
+    <tt>print(z.toString())</tt>
+   </p>
+  </blockquote>
+  <p align="justify">
+   Finally, I&rsquo;ll test if the counter contains zero by calling the method
+   <tt>isZero</tt>. Of course <tt>z.isZero()</tt> will return
+   <tt>False</tt>. But <tt>Zillion('0').isZero()</tt> will
+   return <tt>True</tt>.
+  </p>
+  <p>
+   <b>2. Theory.</b>
+  </p>
+  <p align="justify">
+   Your class <tt>Zillion</tt> must represent a number internally as a
+   list of one or more digits. Each digit <i>d</i> in the list is an
+   integer 0&nbsp;&#8804;&nbsp;<i>d</i>&nbsp;&#8804;&nbsp;9. For example,
+   the number <tt>1234</tt> must be represented as the list
+   <tt>[1,&nbsp;2,&nbsp;3,&nbsp;4]</tt>. Although Python provides long
+   integers that can have arbitrarily many digits, the class
+   <tt>Zillion</tt> must not use these long integers. <i>You will
+   receive zero points for this assignment if you use Python&rsquo;s long
+   integers in any way!</i>
+   <br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The method <tt>increment</tt> must work
+   like this. Starting at the right end of the list, and moving toward the left
+   end, it must change <tt>9</tt>&rsquo;s into <tt>0</tt>&rsquo;s,
+   until it finds a digit that is not <tt>9</tt>, or until there are no
+   more digits left to be visited. If it stops because it has found a digit
+   that is not <tt>9</tt>, then it must add <tt>1</tt> to that digit.
+   If it stops because there are no more digits left, then it must add
+   <tt>1</tt> to the front of the list. For example, if the list is
+   <tt>[1,&nbsp;2,&nbsp;9]</tt>, then <tt>increment</tt> will first
+   change the <tt>9</tt> at the end of the list to a <tt>0</tt>, then
+   add <tt>1</tt> to the digit <tt>2</tt>, resulting in
+   <tt>[1,&nbsp;3,&nbsp;0]</tt>. Similarly, if the list is
+   <tt>[9,&nbsp;9]</tt>, then <tt>increment</tt> will change both
+   <tt>9</tt>&rsquo;s to <tt>0</tt>&rsquo;s, then add <tt>1</tt>
+   to the front of the list, resulting in <tt>[1,&nbsp;0,&nbsp;0]</tt>.
+   <br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hint: unlike the previous lab, you are using
+   lists, which are mutable objects whose elements can be changed. In fact, you
+   <i>must</i> change list elements, or your program will not work
+   correctly.
+  </p>
+  <p>
+   <b>3. Implementation.</b>
+  </p>
+  <p align="justify">
+   The class <tt>Zillion</tt> must define the following methods. To
+   simplify grading, your methods must use the same names as the ones shown
+   here. However, they need not use the same parameter names, except for
+   <tt>self</tt>, which must be unchanged. To demonstrate your
+   understanding of Python, some methods must be implemented in specific ways,
+   as described below.
+  </p>
+  <dl compact="compact">
+   <dt>
+    <p>
+     <tt>__init__(self, digits)</tt>
+    </p>
+   </dt>
+   <dd>
+    <p align="justify">
+     The string <tt>digits</tt> must be a string containing nothing but
+     digits (<tt>0</tt> through <tt>9</tt>), blanks, and commas. It
+     must contain at least one digit. If <tt>digits</tt> contains no
+     digits, or if it contains a character that is not a digit, a blank, or a
+     comma, then raise a <tt>RuntimeError</tt> exception. Convert
+     <tt>digits</tt> to a list of integer digits as described in section
+     2, and save it within the instance of <tt>Zillion</tt>. The list
+     represents the number that is stored in the counter.
+     <br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Hints: it is not enough to test if
+     <tt>digits</tt> is the empty string. For example, a string consisting
+     of nothing but blanks and commas, like
+     <tt>'&nbsp;,&nbsp;,,'</tt> must raise an exception. Also, you
+     may wish to call the built-in function <tt>int</tt>, which converts a
+     string to an integer. For example, <tt>int('0')</tt> returns the
+     integer <tt>0</tt>.
+    </p>
+   </dd>
+   <dt>
+    <p>
+     <tt>increment(self)</tt>
+    </p>
+   </dt>
+   <dd>
+    <p align="justify">
+     Increment the counter, using the algorithm described in part 2. Hint: one
+     way to do this is by using a <tt>while</tt> loop, and another way is
+     to use recursion. There may be still other ways.
+    </p>
+   </dd>
+   <dt>
+    <p>
+     <tt>isZero(self)</tt>
+    </p>
+   </dt>
+   <dd>
+    <p align="justify">
+     Test if the counter contains zero. That is, test if your list of digits
+     contains nothing but <tt>0</tt>&rsquo;s.
+    </p>
+   </dd>
+   <dt>
+    <p>
+     <tt>toString(self)</tt>
+    </p>
+   </dt>
+   <dd>
+    <p align="justify">
+     Convert the list of digits to a string, and return the string. Hint: you
+     may wish to call the built-in function <tt>str</tt>, which converts
+     an integer to a string. For example, <tt>str(0)</tt> returns the
+     string <tt>'0'</tt>.
+    </p>
+   </dd>
+  </dl>
+  <p>
+   <b>4. Tests.</b>
+  </p>
+  <p align="justify">
+   The file
+   <a href="tests2.py">
+    <tt>tests2.py</tt>
+   </a>
+   on Moodle contains a series of tests. The tests create instances of the
+   class <tt>Zillion</tt>, call their methods, and print what they return.
+   Some of the tests raise exceptions instead of printing values. They show
+   whether <tt>Zillion</tt>&rsquo;s methods raise exceptions correctly.
+   <br>
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; To grade your work, the TA&rsquo;s will run
+   the tests using your functions. If a test behaves exactly as it should, then
+   you will receive all the points for that test. If a test does anything else,
+   then you will receive no points for that test. Your score for this
+   assignment is the sum of the points you receive for all the tests.
+  </p>
+  <p>
+   <b>4. Deliverables.</b>
+  </p>
+  <p align="justify">
+   Run the tests in the file
+   <a href="tests2.py">
+    <tt>tests2.py</tt>.
+   </a>
+   Then submit the Python code for your class <tt>Zillion</tt> and the
+   results of the tests. Your lab TA will tell you how and where to turn them
+   in. Your work must be submitted by <b>11:55 <small>PM</small></b>
+   on <b>Wednesday, September 25, 2019</b>. (We are experimenting with
+   having the same due date for all labs, no matter what day they meet.)
+  </p>
+ </body>
+</html>
